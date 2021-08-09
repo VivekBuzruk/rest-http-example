@@ -1,0 +1,79 @@
+// Set Maven command to always include Nexus Settings
+def mvnCmd = "mvn -s ./support/nexus_settings.xml "
+def mvnSelected = " "
+def inputParams
+def mavenHost = "example-nexusrepo-sonatype-nexus-service.my-service-3.svc:8081"
+def dockerHost = "nexus-repo-my-service-3.apps-crc.testing:80"
+def dockerUser = "hub-docker"
+def dockerPass = "MyNexusDocker"
+def dockerProj = "hub-docker"
+def imageHost = "image-registry.openshift-image-registry.svc:5000"
+def sonarHost = "sonarqube.my-service-3.svc:9000"
+def sonarUser = "hub-sonar"
+def sonarPass = "sonarpass"
+def clusterAppHost = "api.crc.testing"
+def clusterApiHost = "api.crc.testing"
+def devTag = "0.0-0"
+def version = ""
+def currProject = 'my-service-3'
+def selectedProject = 'rest-http-example'
+def targetCluster = 'dev'
+def activeLbl = "";
+def passiveLbl = "";
+pipeline {
+
+  agent {
+    label "maven"
+  }
+
+  tools { 
+    maven 'maven' 
+    jdk 'jdk8' 
+  }
+
+  stages {
+
+    // Checkout Source Code and calculate Version Numbers and Tags
+    stage('Checkout Source') {
+      steps {
+
+        checkout([$class: 'GitSCM', branches: [[name: '2.3.6-2-redhat']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'vivek-git-service', url: 'https://github.com/VivekBuzruk/rest-http-example.git']]])
+        script {
+
+          def pom = readMavenPom file: 'pom.xml'
+          version = "1.1-SNAPSHOT"
+
+          mvnSelected = " "
+          // mvnSelected = " -pl .,${selectedProject} -am "
+
+          echo "Jenkins Build for $selectedProject Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (${env.BUILD_URL})"
+
+          // Set the tag for the development image: version + build number
+          devTag = "${version}-${BUILD_NUMBER}"
+        }
+      }
+    }
+
+    // Using Maven build the war file
+    stage('Build App') {
+      steps {
+        script {
+          currentBuild.displayName = currentBuild.displayName + " (${selectedProject})"         
+        }
+        echo "Building version ${devTag}"
+        sh "${mvnCmd} clean package ${mvnSelected} -DskipTests=true"
+      }
+    }
+  }    
+  post {
+    success {
+      echo "Build successful"
+      echo "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
+    }
+  
+    failure {
+      echo "Build failed"
+      echo "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
+    }
+  }
+}
