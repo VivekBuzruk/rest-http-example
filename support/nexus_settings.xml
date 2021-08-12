@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<settings>
+  <mirrors>
+    <mirror>
+      <id>nexus</id>
+      <name>Nexus Public Mirror</name>
+      <url>http://example-nexusrepo-sonatype-nexus-service.my-service-3.svc:8081/repository/maven-public-all/</url>
+      <mirrorOf>*</mirrorOf>
+    </mirror>
+  </mirrors>
+  <servers>
+    <server>
+      <id>nexus</id>
+      <username>hub-maven</username>
+      <password>MyNexusMaven</password>
+    </server>
+  </servers>
+</settings>
