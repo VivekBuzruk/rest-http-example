@@ -54,6 +54,11 @@
       <url>https://maven.repository.redhat.com/ga/</url>
     </repository>
     <repository>
+      <id>central</id>
+      <name>Maven Central</name>
+      <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+    <repository>
       <id>redhat-early-access</id>
       <name>Red Hat Early Access Repository</name>
       <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
@@ -65,6 +70,11 @@
       <id>redhat-ga</id>
       <name>Red Hat GA Repository</name>
       <url>https://maven.repository.redhat.com/ga/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>central</id>
+      <name>Maven Central</name>
+      <url>https://repo1.maven.org/maven2/</url>
     </pluginRepository>
     <pluginRepository>
       <id>redhat-early-access</id>
