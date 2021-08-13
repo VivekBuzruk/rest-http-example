@@ -53,11 +53,11 @@
       <name>Red Hat GA Repository</name>
       <url>https://maven.repository.redhat.com/ga/</url>
     </repository>
-    <repository>
+<!--    <repository>
       <id>central</id>
       <name>Maven Central</name>
       <url>https://repo1.maven.org/maven2/</url>
-    </repository>
+    </repository> -->
     <repository>
       <id>redhat-early-access</id>
       <name>Red Hat Early Access Repository</name>
@@ -71,11 +71,11 @@
       <name>Red Hat GA Repository</name>
       <url>https://maven.repository.redhat.com/ga/</url>
     </pluginRepository>
-    <pluginRepository>
+<!--    <pluginRepository>
       <id>central</id>
       <name>Maven Central</name>
       <url>https://repo1.maven.org/maven2/</url>
-    </pluginRepository>
+    </pluginRepository> -->
     <pluginRepository>
       <id>redhat-early-access</id>
       <name>Red Hat Early Access Repository</name>
